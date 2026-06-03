@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OntologyApplyWorkflow",
+  "version": "2.0.0",
+  "workflow": [
+    {
+      "step": 1,
+      "name": "define-ontology",
+      "description": "Edit ontology/schema.json — Single Source of Truth (classes, relationships, constraints).",
+      "files": ["ontology/schema.json", "ontology/schema.template.json"]
+    },
+    {
+      "step": 2,
+      "name": "apply-ontology",
+      "description": "TypeScript loads schema.json for AI Cypher prompts and guardrails; Neo4j uses neo4j.mapping.json.",
+      "files": ["src/index.ts", "src/ontology/load.ts", "src/ontology/guardrails.ts", "src/agent/prompt_templates.ts", "ontology/neo4j.mapping.json"]
+    }
+  ],
+  "copyToNewProject": [
+    "ontology/schema.template.json",
+    "ontology/neo4j.mapping.json",
+    "ontology/project/apply.template.json",
+    "src/ontology",
+    "src/agent",
+    "src/neo4j",
+    "src/index.ts",
+    "package.json",
+    "tsconfig.json",
+    ".env.example",
+    "database"
+  ],
+  "renameOnCopy": {
+    "ontology/schema.template.json": "ontology/schema.json"
+  },
+  "vibeCode": {
+    "rule": "Business logic changes only in ontology/schema.json; restart dev after ontology edits."
+  }
+}

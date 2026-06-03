@@ -1,0 +1,32 @@
+{
+  "@context": [
+    "../template/context.jsonld",
+    {
+      "proj": "{{PROJECT_NAMESPACE}}/",
+      "dom": "{{DOMAIN_NAMESPACE}}/"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "dom:OntologyExtension",
+      "@type": "owl:Ontology",
+      "label": "{{DOMAIN_NAME}} Extension",
+      "owl:imports": { "@id": "proj:project" }
+    },
+    {
+      "@id": "dom:DomainEntity",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "{{DOMAIN_ENTITY_LABEL}}",
+      "comment": "Replace with project-specific classes. Keep belongsToProject on all instances."
+    },
+    {
+      "@id": "dom:relatesToDomain",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:relatesTo",
+      "label": "relates to domain entity",
+      "domain": "dom:DomainEntity",
+      "range": "core:Entity"
+    }
+  ]
+}

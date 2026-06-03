@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "ontologySource": "ontology/schema.json",
+  "status": "active",
+  "nodeLabels": {
+    "Employee": "Employee",
+    "Project": "Project",
+    "Skill": "Skill"
+  },
+  "relationshipTypes": {
+    "HAS_SKILL": "HAS_SKILL",
+    "ASSIGNED_TO": "ASSIGNED_TO",
+    "REQUIRES_SKILL": "REQUIRES_SKILL"
+  },
+  "propertyKeys": {
+    "Employee": ["empId", "name", "role"],
+    "Project": ["projectId", "title", "difficulty"],
+    "Skill": ["skillId", "name"]
+  },
+  "constraints": {
+    "uniqueKeys": {
+      "Employee": "empId",
+      "Project": "projectId",
+      "Skill": "skillId"
+    }
+  }
+}

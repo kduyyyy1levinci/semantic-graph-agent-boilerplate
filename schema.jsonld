@@ -1,0 +1,8 @@
+{
+  "@context": "./ontology/template/context.jsonld",
+  "@id": "core:OntologyWorkflowBundle",
+  "@type": "owl:Ontology",
+  "label": "Ontology workflow: schema.json (Step 1) + TypeScript apply (Step 2)",
+  "comment": "JSON-LD template modules remain optional. Canonical domain ontology for Neo4j+AI is ontology/schema.json.",
+  "owl:imports": { "@id": "./ontology/profiles/vibe-code.profile.jsonld" }
+}

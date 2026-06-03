@@ -1,0 +1,11 @@
+{
+  "@context": "../template/context.jsonld",
+  "@id": "core:profile/software",
+  "@type": "owl:Ontology",
+  "label": "Profile: Software",
+  "comment": "Core + codebase structure. Use for traditional repos without vibe-code workflow.",
+  "owl:imports": [
+    { "@id": "../template/core.tbox.jsonld" },
+    { "@id": "../template/modules/software.tbox.jsonld" }
+  ]
+}

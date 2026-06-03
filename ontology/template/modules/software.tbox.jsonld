@@ -1,0 +1,128 @@
+{
+  "@context": "../context.jsonld",
+  "@graph": [
+    {
+      "@id": "sw:SoftwareModule",
+      "@type": "owl:Ontology",
+      "label": "Software Engineering Module",
+      "owl:versionInfo": "1.0.0",
+      "owl:imports": { "@id": "../core.tbox.jsonld" }
+    },
+    {
+      "@id": "sw:CodeArtifact",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Code Artifact"
+    },
+    {
+      "@id": "sw:Repository",
+      "@type": "rdfs:Class",
+      "subClassOf": "sw:CodeArtifact",
+      "label": "Repository"
+    },
+    {
+      "@id": "sw:Package",
+      "@type": "rdfs:Class",
+      "subClassOf": "sw:CodeArtifact",
+      "label": "Package"
+    },
+    {
+      "@id": "sw:Module",
+      "@type": "rdfs:Class",
+      "subClassOf": "sw:CodeArtifact",
+      "label": "Module"
+    },
+    {
+      "@id": "sw:File",
+      "@type": "rdfs:Class",
+      "subClassOf": "sw:CodeArtifact",
+      "label": "File"
+    },
+    {
+      "@id": "sw:Symbol",
+      "@type": "rdfs:Class",
+      "subClassOf": "sw:CodeArtifact",
+      "label": "Symbol"
+    },
+    {
+      "@id": "sw:Feature",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Concept",
+      "label": "Feature"
+    },
+    {
+      "@id": "sw:Task",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Event",
+      "label": "Task"
+    },
+    {
+      "@id": "sw:Decision",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Document",
+      "label": "Decision Record"
+    },
+    {
+      "@id": "sw:Dependency",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Concept",
+      "label": "Dependency"
+    },
+    {
+      "@id": "sw:contains",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:partOf",
+      "label": "contains",
+      "domain": "sw:CodeArtifact",
+      "range": "sw:CodeArtifact"
+    },
+    {
+      "@id": "sw:dependsOn",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:relatesTo",
+      "label": "depends on",
+      "domain": "sw:CodeArtifact",
+      "range": "sw:Dependency"
+    },
+    {
+      "@id": "sw:definedIn",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:partOf",
+      "label": "defined in",
+      "domain": "sw:Symbol",
+      "range": "sw:File"
+    },
+    {
+      "@id": "sw:implements",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:relatesTo",
+      "label": "implements",
+      "domain": "sw:CodeArtifact",
+      "range": "sw:Feature"
+    },
+    {
+      "@id": "sw:path",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "path",
+      "domain": "sw:CodeArtifact",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "sw:language",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "language",
+      "domain": "sw:File",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "sw:repositoryUrl",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "repository URL",
+      "domain": "sw:Repository",
+      "range": "xsd:anyURI"
+    }
+  ]
+}

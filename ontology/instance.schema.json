@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ontology.levinci.dev/instance.schema.json",
+  "title": "OntologyTemplateInstance",
+  "description": "Optional JSON-LD instance validation (vibe-code template). Step 1 domain ontology uses ontology/schema.json.",
+  "type": "object",
+  "required": ["@context", "@graph"],
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+    "@graph": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/resource" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "iri": {
+      "type": "string",
+      "minLength": 3
+    },
+    "resource": {
+      "type": "object",
+      "required": ["@id", "@type"],
+      "properties": {
+        "@id": { "$ref": "#/$defs/iri" },
+        "@type": {
+          "oneOf": [
+            { "$ref": "#/$defs/iri" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/iri" },
+              "minItems": 1
+            }
+          ]
+        },
+        "identifier": { "type": "string" },
+        "name": { "type": "string" },
+        "belongsToProject": { "$ref": "#/$defs/objectRef" }
+      },
+      "additionalProperties": true
+    },
+    "objectRef": {
+      "oneOf": [
+        { "$ref": "#/$defs/iri" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/iri" },
+          "minItems": 1
+        }
+      ]
+    }
+  }
+}

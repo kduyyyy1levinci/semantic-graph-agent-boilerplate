@@ -1,0 +1,12 @@
+{
+  "@context": "../template/context.jsonld",
+  "@id": "core:profile/vibe-code",
+  "@type": "owl:Ontology",
+  "label": "Profile: Vibe Code",
+  "comment": "Recommended default for AI-assisted projects. Core + software + vibe-code session modeling.",
+  "owl:imports": [
+    { "@id": "../template/core.tbox.jsonld" },
+    { "@id": "../template/modules/software.tbox.jsonld" },
+    { "@id": "../template/modules/vibe-code.tbox.jsonld" }
+  ]
+}

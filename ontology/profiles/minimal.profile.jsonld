@@ -1,0 +1,8 @@
+{
+  "@context": "../template/context.jsonld",
+  "@id": "core:profile/minimal",
+  "@type": "owl:Ontology",
+  "label": "Profile: Minimal",
+  "comment": "Core only. Use for non-code or lightweight knowledge graphs.",
+  "owl:imports": { "@id": "../template/core.tbox.jsonld" }
+}

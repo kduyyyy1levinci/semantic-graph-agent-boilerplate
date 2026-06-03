@@ -1,0 +1,20 @@
+{
+  "@context": [
+    "../template/context.jsonld",
+    {
+      "proj": "{{PROJECT_NAMESPACE}}/"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "proj:project",
+      "@type": ["core:Project", "core:Entity"],
+      "identifier": "{{PROJECT_ID}}",
+      "slug": "{{PROJECT_SLUG}}",
+      "name": "{{PROJECT_NAME}}",
+      "description": "{{PROJECT_DESCRIPTION}}",
+      "status": "active",
+      "owl:imports": { "@id": "../profiles/{{PROFILE}}.profile.jsonld" }
+    }
+  ]
+}

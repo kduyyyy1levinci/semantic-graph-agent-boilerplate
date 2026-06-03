@@ -1,0 +1,250 @@
+{
+  "@context": "./context.jsonld",
+  "@graph": [
+    {
+      "@id": "core:OntologyTemplate",
+      "@type": "owl:Ontology",
+      "label": "Levinci Core Ontology Template",
+      "comment": "Portable core layer. Import into any project; extend via project/extension.template.jsonld.",
+      "owl:versionInfo": "1.0.0"
+    },
+    {
+      "@id": "core:Thing",
+      "@type": "rdfs:Class",
+      "label": "Thing"
+    },
+    {
+      "@id": "core:Project",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Project",
+      "comment": "Scope boundary for all graph data in one codebase or product."
+    },
+    {
+      "@id": "core:Entity",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Thing",
+      "label": "Entity"
+    },
+    {
+      "@id": "core:Agent",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Agent"
+    },
+    {
+      "@id": "core:Person",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Agent",
+      "label": "Person"
+    },
+    {
+      "@id": "core:SoftwareAgent",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Agent",
+      "label": "Software Agent"
+    },
+    {
+      "@id": "core:Organization",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Organization"
+    },
+    {
+      "@id": "core:Document",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Document"
+    },
+    {
+      "@id": "core:Concept",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Concept"
+    },
+    {
+      "@id": "core:Event",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Entity",
+      "label": "Event"
+    },
+    {
+      "@id": "core:Assertion",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Thing",
+      "label": "Assertion"
+    },
+    {
+      "@id": "core:ObjectProperty",
+      "@type": "rdfs:Class",
+      "subClassOf": "rdf:Property",
+      "label": "Object Property"
+    },
+    {
+      "@id": "core:DataProperty",
+      "@type": "rdfs:Class",
+      "subClassOf": "rdf:Property",
+      "label": "Data Property"
+    },
+    {
+      "@id": "core:belongsToProject",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "belongs to project",
+      "domain": "core:Entity",
+      "range": "core:Project"
+    },
+    {
+      "@id": "core:relatesTo",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "relates to",
+      "domain": "core:Entity",
+      "range": "core:Entity"
+    },
+    {
+      "@id": "core:partOf",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "part of",
+      "domain": "core:Entity",
+      "range": "core:Entity"
+    },
+    {
+      "@id": "core:mentions",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "mentions",
+      "domain": "core:Document",
+      "range": "core:Entity"
+    },
+    {
+      "@id": "core:createdBy",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "created by",
+      "domain": "core:Entity",
+      "range": "core:Agent"
+    },
+    {
+      "@id": "core:instanceOf",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "instance of",
+      "domain": "core:Entity",
+      "range": "core:Concept"
+    },
+    {
+      "@id": "core:derivedFrom",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "derived from",
+      "domain": "core:Document",
+      "range": "core:Document"
+    },
+    {
+      "@id": "core:broader",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "broader",
+      "domain": "core:Concept",
+      "range": "core:Concept"
+    },
+    {
+      "@id": "core:narrower",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "narrower",
+      "domain": "core:Concept",
+      "range": "core:Concept"
+    },
+    {
+      "@id": "core:about",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "about",
+      "domain": "core:Assertion",
+      "range": "core:Entity"
+    },
+    {
+      "@id": "core:assertedBy",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:ObjectProperty",
+      "label": "asserted by",
+      "domain": "core:Assertion",
+      "range": "core:Agent"
+    },
+    {
+      "@id": "core:identifier",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "identifier",
+      "domain": "core:Entity",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "core:slug",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "slug",
+      "domain": "core:Project",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "core:name",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "name",
+      "domain": "core:Thing",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "core:description",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "description",
+      "domain": "core:Thing",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "core:createdAt",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "created at",
+      "domain": "core:Entity",
+      "range": "xsd:dateTime"
+    },
+    {
+      "@id": "core:updatedAt",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "updated at",
+      "domain": "core:Entity",
+      "range": "xsd:dateTime"
+    },
+    {
+      "@id": "core:sourceUri",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "source URI",
+      "domain": "core:Document",
+      "range": "xsd:anyURI"
+    },
+    {
+      "@id": "core:confidence",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "confidence",
+      "domain": "core:Assertion",
+      "range": "xsd:decimal"
+    },
+    {
+      "@id": "core:status",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "status",
+      "domain": "core:Entity",
+      "range": "xsd:string"
+    }
+  ]
+}

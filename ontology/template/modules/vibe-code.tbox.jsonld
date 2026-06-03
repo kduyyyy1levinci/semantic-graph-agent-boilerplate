@@ -1,0 +1,116 @@
+{
+  "@context": "../context.jsonld",
+  "@graph": [
+    {
+      "@id": "vibe:VibeCodeModule",
+      "@type": "owl:Ontology",
+      "label": "Vibe Code Module",
+      "comment": "Models AI-assisted iterative coding: intent, prompts, sessions, and generated artifacts.",
+      "owl:versionInfo": "1.0.0",
+      "owl:imports": { "@id": "./software.tbox.jsonld" }
+    },
+    {
+      "@id": "vibe:CodingSession",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Event",
+      "label": "Coding Session"
+    },
+    {
+      "@id": "vibe:Intent",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Document",
+      "label": "Intent",
+      "comment": "Informal goal or vibe describing what to build or change."
+    },
+    {
+      "@id": "vibe:PromptTurn",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Document",
+      "label": "Prompt Turn"
+    },
+    {
+      "@id": "vibe:ArtifactChange",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Event",
+      "label": "Artifact Change"
+    },
+    {
+      "@id": "vibe:ReviewNote",
+      "@type": "rdfs:Class",
+      "subClassOf": "core:Document",
+      "label": "Review Note"
+    },
+    {
+      "@id": "vibe:producedInSession",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:relatesTo",
+      "label": "produced in session",
+      "domain": "core:Entity",
+      "range": "vibe:CodingSession"
+    },
+    {
+      "@id": "vibe:implementsIntent",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "sw:implements",
+      "label": "implements intent",
+      "domain": "sw:CodeArtifact",
+      "range": "vibe:Intent"
+    },
+    {
+      "@id": "vibe:revises",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:derivedFrom",
+      "label": "revises",
+      "domain": "vibe:ArtifactChange",
+      "range": "sw:CodeArtifact"
+    },
+    {
+      "@id": "vibe:promptedBy",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:createdBy",
+      "label": "prompted by",
+      "domain": "vibe:ArtifactChange",
+      "range": "vibe:PromptTurn"
+    },
+    {
+      "@id": "vibe:hasTurn",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:partOf",
+      "label": "has turn",
+      "domain": "vibe:CodingSession",
+      "range": "vibe:PromptTurn"
+    },
+    {
+      "@id": "vibe:targets",
+      "@type": "owl:ObjectProperty",
+      "subPropertyOf": "core:about",
+      "label": "targets",
+      "domain": "vibe:Intent",
+      "range": "sw:Feature"
+    },
+    {
+      "@id": "vibe:turnIndex",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "turn index",
+      "domain": "vibe:PromptTurn",
+      "range": "xsd:integer"
+    },
+    {
+      "@id": "vibe:role",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "role",
+      "domain": "vibe:PromptTurn",
+      "range": "xsd:string"
+    },
+    {
+      "@id": "vibe:content",
+      "@type": "owl:DatatypeProperty",
+      "subPropertyOf": "core:DataProperty",
+      "label": "content",
+      "domain": "vibe:PromptTurn",
+      "range": "xsd:string"
+    }
+  ]
+}

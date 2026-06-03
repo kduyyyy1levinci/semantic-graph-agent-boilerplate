@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Enterprise Project & Skill Ontology",
+  "version": "1.0.0",
+  "classes": {
+    "Employee": {
+      "description": "Company staff member",
+      "properties": {
+        "empId": "Unique identifier (e.g. EMP001)",
+        "name": "Employee name",
+        "role": "Job role (e.g. Developer, Designer)"
+      }
+    },
+    "Project": {
+      "description": "Active company project",
+      "properties": {
+        "projectId": "Project code (e.g. PRJ-2026)",
+        "title": "Project title",
+        "difficulty": "Level: Easy, Medium, Hard"
+      }
+    },
+    "Skill": {
+      "description": "Technology or professional skill",
+      "properties": {
+        "skillId": "Skill code (e.g. SKL-JAVA, SKL-NEO4J)",
+        "name": "Skill name"
+      }
+    }
+  },
+  "relationships": [
+    {
+      "source": "Employee",
+      "predicate": "HAS_SKILL",
+      "target": "Skill",
+      "description": "Employee possesses a skill"
+    },
+    {
+      "source": "Employee",
+      "predicate": "ASSIGNED_TO",
+      "target": "Project",
+      "description": "Employee is assigned to a project"
+    },
+    {
+      "source": "Project",
+      "predicate": "REQUIRES_SKILL",
+      "target": "Skill",
+      "description": "Project requires a skill"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "hard-project-requires-skill",
+      "description": "An Employee may only be ASSIGNED_TO a Hard Project if they have at least one Skill that the Project REQUIRES_SKILL.",
+      "action": "ASSIGN_TO_PROJECT",
+      "when": {
+        "projectDifficulty": { "equals": "Hard" }
+      },
+      "rule": {
+        "type": "skillOverlap",
+        "employeeSkillsField": "employeeSkills",
+        "projectSkillsField": "projectSkills"
+      },
+      "rejectMessage": "Ontology constraint violated: This project is Hard; the employee lacks required skills ({projectSkills}) and cannot be assigned."
+    }
+  ]
+}

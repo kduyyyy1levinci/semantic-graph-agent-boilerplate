@@ -1,0 +1,98 @@
+{
+  "@context": "../template/context.jsonld",
+  "@graph": [
+    {
+      "@id": "proj:sample-app",
+      "@type": "core:Project",
+      "identifier": "sample-app",
+      "slug": "sample-app",
+      "name": "Sample Vibe Code App",
+      "description": "Example of applying the reusable template to an AI-assisted project.",
+      "status": "active"
+    },
+    {
+      "@id": "proj:agent-cursor",
+      "@type": "core:SoftwareAgent",
+      "identifier": "agent-cursor",
+      "name": "Cursor Agent",
+      "belongsToProject": "proj:sample-app"
+    },
+    {
+      "@id": "proj:feature-auth",
+      "@type": "sw:Feature",
+      "identifier": "feature-auth",
+      "name": "User Authentication",
+      "belongsToProject": "proj:sample-app"
+    },
+    {
+      "@id": "proj:intent-auth-v1",
+      "@type": "vibe:Intent",
+      "identifier": "intent-auth-v1",
+      "name": "Add JWT auth with refresh tokens",
+      "description": "Vibe: keep it simple, middleware-based, no over-engineering.",
+      "targets": "proj:feature-auth",
+      "belongsToProject": "proj:sample-app",
+      "createdBy": "proj:agent-cursor"
+    },
+    {
+      "@id": "proj:session-2026-06-03",
+      "@type": "vibe:CodingSession",
+      "identifier": "session-2026-06-03",
+      "name": "Auth implementation session",
+      "createdAt": "2026-06-03T14:00:00Z",
+      "belongsToProject": "proj:sample-app",
+      "createdBy": "proj:agent-cursor"
+    },
+    {
+      "@id": "proj:turn-1",
+      "@type": "vibe:PromptTurn",
+      "identifier": "turn-1",
+      "turnIndex": 1,
+      "role": "user",
+      "content": "Implement JWT middleware for Express",
+      "belongsToProject": "proj:sample-app",
+      "producedInSession": "proj:session-2026-06-03"
+    },
+    {
+      "@id": "proj:repo",
+      "@type": "sw:Repository",
+      "identifier": "repo-sample-app",
+      "name": "sample-app",
+      "repositoryUrl": "https://github.com/example/sample-app",
+      "belongsToProject": "proj:sample-app"
+    },
+    {
+      "@id": "proj:file-auth-middleware",
+      "@type": "sw:File",
+      "identifier": "file-src-middleware-auth-ts",
+      "name": "auth.ts",
+      "path": "src/middleware/auth.ts",
+      "language": "typescript",
+      "belongsToProject": "proj:sample-app",
+      "partOf": "proj:repo",
+      "implementsIntent": "proj:intent-auth-v1",
+      "producedInSession": "proj:session-2026-06-03"
+    },
+    {
+      "@id": "proj:change-1",
+      "@type": "vibe:ArtifactChange",
+      "identifier": "change-1",
+      "name": "Create auth middleware",
+      "createdAt": "2026-06-03T14:12:00Z",
+      "belongsToProject": "proj:sample-app",
+      "revises": "proj:file-auth-middleware",
+      "promptedBy": "proj:turn-1",
+      "producedInSession": "proj:session-2026-06-03"
+    },
+    {
+      "@id": "proj:assertion-implements-intent",
+      "@type": "core:Assertion",
+      "identifier": "assertion-implements-intent",
+      "about": "proj:file-auth-middleware",
+      "assertedBy": "proj:agent-cursor",
+      "confidence": 0.88,
+      "createdAt": "2026-06-03T14:15:00Z",
+      "belongsToProject": "proj:sample-app"
+    }
+  ]
+}
