@@ -7,8 +7,24 @@ FOR (p:Project) REQUIRE p.projectId IS UNIQUE;
 CREATE CONSTRAINT skill_skill_id IF NOT EXISTS
 FOR (s:Skill) REQUIRE s.skillId IS UNIQUE;
 
-MERGE (e1:Employee {empId: 'EMP001', name: 'An Nguyen', role: 'Developer'})
-MERGE (e2:Employee {empId: 'EMP002', name: 'Binh Tran', role: 'Designer'})
+MERGE (e1:Employee {
+  empId: 'EMP001',
+  name: 'An Nguyen',
+  role: 'Developer',
+  email: 'an.nguyen@example.com',
+  title: 'Senior Developer',
+  status: 'Active',
+  bio: 'Full-stack developer focused on graph data platforms.'
+})
+MERGE (e2:Employee {
+  empId: 'EMP002',
+  name: 'Binh Tran',
+  role: 'Designer',
+  email: 'binh.tran@example.com',
+  title: 'Product Designer',
+  status: 'Active',
+  bio: 'UI/UX designer for marketing and product surfaces.'
+})
 MERGE (p1:Project {projectId: 'PRJ-2026', title: 'Graph Platform', difficulty: 'Hard'})
 MERGE (p2:Project {projectId: 'PRJ-LANDING', title: 'Marketing Site', difficulty: 'Easy'})
 MERGE (s1:Skill {skillId: 'SKL-JAVA', name: 'Java'})

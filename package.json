@@ -10,7 +10,9 @@
     "docker:up": "docker compose -f database/docker-compose.yml up -d",
     "docker:down": "docker compose -f database/docker-compose.yml down",
     "docker:logs": "docker compose -f database/docker-compose.yml logs -f",
-    "graph:export": "tsx src/ontology/export-graph.ts"
+    "graph:export": "tsx src/ontology/export-graph.ts",
+    "db:seed": "bash database/seed-all.sh",
+    "db:migrate": "bash database/seed-one.sh"
   },
   "dependencies": {
     "neo4j-driver": "^5.28.1",

@@ -14,7 +14,7 @@
     "REQUIRES_SKILL": "REQUIRES_SKILL"
   },
   "propertyKeys": {
-    "Employee": ["empId", "name", "role"],
+    "Employee": ["empId", "name", "role", "email", "title", "status", "bio"],
     "Project": ["projectId", "title", "difficulty"],
     "Skill": ["skillId", "name"]
   },

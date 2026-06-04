@@ -1,14 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Enterprise Project & Skill Ontology",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "classes": {
     "Employee": {
       "description": "Company staff member",
       "properties": {
         "empId": "Unique identifier (e.g. EMP001)",
         "name": "Employee name",
-        "role": "Job role (e.g. Developer, Designer)"
+        "role": "Job role (e.g. Developer, Designer)",
+        "email": "Work email address",
+        "title": "Job title (e.g. Senior Developer)",
+        "status": "Active | OnLeave | Inactive",
+        "bio": "Short professional summary"
       }
     },
     "Project": {
