@@ -1,6 +1,19 @@
 import * as fs from "fs";
 import * as path from "path";
-import type { OntologySchema } from "./types.js";
+
+export type OntologySchema = {
+  $schema?: string;
+  title: string;
+  version: string;
+  classes: Record<string, { description: string; properties: Record<string, string> }>;
+  relationships: Array<{
+    source: string;
+    predicate: string;
+    target: string;
+    description: string;
+  }>;
+  constraints: unknown[];
+};
 
 const DEFAULT_PATH = path.join(process.cwd(), "ontology", "schema.json");
 

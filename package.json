@@ -12,9 +12,12 @@
     "docker:logs": "docker compose -f database/docker-compose.yml logs -f",
     "graph:export": "tsx src/ontology/export-graph.ts",
     "db:seed": "bash database/seed-all.sh",
-    "db:migrate": "bash database/seed-one.sh"
+    "db:migrate": "bash database/seed-one.sh",
+    "api:example": "node example-api/server.mjs",
+    "api:example:watch": "node --watch example-api/server.mjs"
   },
   "dependencies": {
+    "express": "^4.22.2",
     "neo4j-driver": "^5.28.1",
     "openai": "^4.104.0"
   },

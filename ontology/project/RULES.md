@@ -9,7 +9,7 @@ User sends `Yêu cầu: ...` and **Follow the rules file**. Requirement is only 
 1. **schema.json** — classes, relationships, constraints; bump `version`
 2. **neo4j.mapping.json** — align with schema
 3. **database/migrations/00X_name.cypher** — labels and relationship types from schema only
-4. Do not edit `src/` unless a new `constraint.rule.type` is required (`guardrails.ts`)
+4. Enforce constraints in API or app layer as needed; keep rule meaning in `schema.json` only
 
 ## Invariants
 

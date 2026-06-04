@@ -1,5 +1,9 @@
 import OpenAI from "openai";
-import type { CypherGenerationResult, OntologySchema } from "../ontology/types.js";
+import type { OntologySchema } from "../ontology/load.js";
+
+export type CypherGenerationResult = {
+  cypher: string;
+};
 import { buildCypherSystemInstruction } from "./prompt_templates.js";
 
 function mockCypherFromPrompt(userPrompt: string): CypherGenerationResult {

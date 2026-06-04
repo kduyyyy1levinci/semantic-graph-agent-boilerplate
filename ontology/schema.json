@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Enterprise Project & Skill Ontology",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "classes": {
     "Employee": {
       "description": "Company staff member",
@@ -29,6 +29,15 @@
         "skillId": "Skill code (e.g. SKL-JAVA, SKL-NEO4J)",
         "name": "Skill name"
       }
+    },
+    "TimeLog": {
+      "description": "Work hours logged by an employee on a project",
+      "properties": {
+        "timeLogId": "Unique identifier (e.g. TL-2026-001)",
+        "workDate": "Date of work (ISO 8601 YYYY-MM-DD)",
+        "hours": "Hours worked (positive number)",
+        "note": "Optional description of work performed"
+      }
     }
   },
   "relationships": [
@@ -49,6 +58,18 @@
       "predicate": "REQUIRES_SKILL",
       "target": "Skill",
       "description": "Project requires a skill"
+    },
+    {
+      "source": "Employee",
+      "predicate": "LOGGED",
+      "target": "TimeLog",
+      "description": "Employee recorded a time log entry"
+    },
+    {
+      "source": "TimeLog",
+      "predicate": "FOR_PROJECT",
+      "target": "Project",
+      "description": "Time log entry applies to a project"
     }
   ],
   "constraints": [
@@ -65,6 +86,30 @@
         "projectSkillsField": "projectSkills"
       },
       "rejectMessage": "Ontology constraint violated: This project is Hard; the employee lacks required skills ({projectSkills}) and cannot be assigned."
+    },
+    {
+      "id": "log-time-requires-assignment",
+      "description": "An Employee may only LOG_TIME on a Project they are ASSIGNED_TO.",
+      "action": "LOG_TIME",
+      "when": {},
+      "rule": {
+        "type": "assignmentMatch",
+        "employeeIdField": "employeeId",
+        "projectIdField": "projectId",
+        "assignmentsField": "assignments"
+      },
+      "rejectMessage": "Ontology constraint violated: Employee is not assigned to this project and cannot log time."
+    },
+    {
+      "id": "log-time-positive-hours",
+      "description": "LOG_TIME hours must be greater than zero.",
+      "action": "LOG_TIME",
+      "when": {},
+      "rule": {
+        "type": "positiveNumber",
+        "field": "hours"
+      },
+      "rejectMessage": "Ontology constraint violated: hours must be greater than zero."
     }
   ]
 }

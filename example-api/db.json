@@ -1,0 +1,126 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "empId": "EMP001",
+      "name": "An Nguyen",
+      "role": "Developer",
+      "email": "an.nguyen@example.com",
+      "title": "Senior Developer",
+      "status": "Active",
+      "bio": "Full-stack developer focused on graph data platforms."
+    },
+    {
+      "id": 2,
+      "empId": "EMP002",
+      "name": "Binh Tran",
+      "role": "Designer",
+      "email": "binh.tran@example.com",
+      "title": "Product Designer",
+      "status": "Active",
+      "bio": "UI/UX designer for marketing and product surfaces."
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "projectId": "PRJ-2026",
+      "title": "Graph Platform",
+      "difficulty": "Hard"
+    },
+    {
+      "id": 2,
+      "projectId": "PRJ-LANDING",
+      "title": "Marketing Site",
+      "difficulty": "Easy"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "skillId": "SKL-JAVA",
+      "name": "Java"
+    },
+    {
+      "id": 2,
+      "skillId": "SKL-NEO4J",
+      "name": "Neo4j"
+    },
+    {
+      "id": 3,
+      "skillId": "SKL-HTML",
+      "name": "HTML"
+    },
+    {
+      "id": 4,
+      "skillId": "SKL-CSS",
+      "name": "CSS"
+    }
+  ],
+  "employeeSkills": [
+    {
+      "id": 1,
+      "employeeId": 1,
+      "skillId": 1
+    },
+    {
+      "id": 2,
+      "employeeId": 1,
+      "skillId": 2
+    },
+    {
+      "id": 3,
+      "employeeId": 2,
+      "skillId": 3
+    },
+    {
+      "id": 4,
+      "employeeId": 2,
+      "skillId": 4
+    }
+  ],
+  "projectSkills": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "skillId": 1
+    },
+    {
+      "id": 2,
+      "projectId": 1,
+      "skillId": 2
+    }
+  ],
+  "assignments": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "projectId": 2
+    },
+    {
+      "id": 2,
+      "employeeId": 1,
+      "projectId": 1
+    }
+  ],
+  "timeLogs": [
+    {
+      "id": 1,
+      "timeLogId": "TL-001",
+      "employeeId": 1,
+      "projectId": 1,
+      "workDate": "2026-06-01",
+      "hours": 4,
+      "note": "Graph schema review"
+    },
+    {
+      "id": 2,
+      "timeLogId": "TL-002",
+      "employeeId": 1,
+      "projectId": 1,
+      "workDate": "2026-06-04",
+      "hours": 2,
+      "note": "API test"
+    }
+  ]
+}

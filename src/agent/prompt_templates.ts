@@ -1,4 +1,4 @@
-import type { OntologySchema } from "../ontology/types.js";
+import type { OntologySchema } from "../ontology/load.js";
 import { getClassLabels, getRelationshipPredicates } from "../ontology/load.js";
 
 export function buildCypherSystemInstruction(ontology: OntologySchema): string {

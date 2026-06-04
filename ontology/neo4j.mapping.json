@@ -1,28 +1,33 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "ontologySource": "ontology/schema.json",
   "status": "active",
   "nodeLabels": {
     "Employee": "Employee",
     "Project": "Project",
-    "Skill": "Skill"
+    "Skill": "Skill",
+    "TimeLog": "TimeLog"
   },
   "relationshipTypes": {
     "HAS_SKILL": "HAS_SKILL",
     "ASSIGNED_TO": "ASSIGNED_TO",
-    "REQUIRES_SKILL": "REQUIRES_SKILL"
+    "REQUIRES_SKILL": "REQUIRES_SKILL",
+    "LOGGED": "LOGGED",
+    "FOR_PROJECT": "FOR_PROJECT"
   },
   "propertyKeys": {
     "Employee": ["empId", "name", "role", "email", "title", "status", "bio"],
     "Project": ["projectId", "title", "difficulty"],
-    "Skill": ["skillId", "name"]
+    "Skill": ["skillId", "name"],
+    "TimeLog": ["timeLogId", "workDate", "hours", "note"]
   },
   "constraints": {
     "uniqueKeys": {
       "Employee": "empId",
       "Project": "projectId",
-      "Skill": "skillId"
+      "Skill": "skillId",
+      "TimeLog": "timeLogId"
     }
   }
 }
