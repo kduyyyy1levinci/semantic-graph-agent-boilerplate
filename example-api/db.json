@@ -101,6 +101,11 @@
       "id": 2,
       "employeeId": 1,
       "projectId": 1
+    },
+    {
+      "id": 3,
+      "employeeId": 1,
+      "projectId": 2
     }
   ],
   "timeLogs": [

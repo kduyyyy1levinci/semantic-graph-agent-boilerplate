@@ -39,6 +39,105 @@ function nextTimeLogId(items) {
   return `${prefix}${String(next).padStart(3, "0")}`;
 }
 
+function employeeSkillIds(db, employeeId) {
+  return (db.employeeSkills ?? [])
+    .filter((row) => row.employeeId === employeeId)
+    .map((row) => row.skillId);
+}
+
+function projectRequiredSkillIds(db, projectId) {
+  return (db.projectSkills ?? [])
+    .filter((row) => row.projectId === projectId)
+    .map((row) => row.skillId);
+}
+
+function hasAssignment(db, employeeId, projectId) {
+  return (db.assignments ?? []).some(
+    (row) => Number(row.employeeId) === employeeId && Number(row.projectId) === projectId
+  );
+}
+
+function validateAssignToProject(db, employeeId, projectId) {
+  const employee = (db.employees ?? []).find((row) => row.id === employeeId);
+  if (!employee) {
+    return { valid: false, status: 404, reason: "Employee not found" };
+  }
+
+  const project = (db.projects ?? []).find((row) => row.id === projectId);
+  if (!project) {
+    return { valid: false, status: 404, reason: "Project not found" };
+  }
+
+  if (hasAssignment(db, employeeId, projectId)) {
+    return {
+      valid: false,
+      status: 422,
+      reason: "Ontology constraint violated: Employee is already assigned to this project.",
+      constraintId: "assign-unique-project"
+    };
+  }
+
+  if (project.difficulty === "Hard") {
+    const empSkills = new Set(employeeSkillIds(db, employeeId));
+    const required = projectRequiredSkillIds(db, projectId);
+    const overlap = required.some((skillId) => empSkills.has(skillId));
+    if (!overlap) {
+      const names = required
+        .map((skillId) => (db.skills ?? []).find((s) => s.id === skillId)?.name)
+        .filter(Boolean);
+      return {
+        valid: false,
+        status: 422,
+        reason: `Ontology constraint violated: This project is Hard; the employee lacks required skills (${names.join(", ")}) and cannot be assigned.`,
+        constraintId: "hard-project-requires-skill"
+      };
+    }
+  }
+
+  return { valid: true };
+}
+
+function validateViewProject(db, employeeId, projectId) {
+  if (!hasAssignment(db, employeeId, projectId)) {
+    return {
+      valid: false,
+      reason:
+        "Ontology constraint violated: Employee is not assigned to this project and cannot view it.",
+      constraintId: "view-projects-requires-assignment"
+    };
+  }
+  return { valid: true };
+}
+
+async function createAssignment(db, employeeId, projectId) {
+  const check = validateAssignToProject(db, employeeId, projectId);
+  if (!check.valid) {
+    return {
+      status: check.status,
+      body: {
+        error: check.reason,
+        ...(check.constraintId ? { constraintId: check.constraintId } : {})
+      }
+    };
+  }
+
+  const items = db.assignments ?? [];
+  const item = { id: nextId(items), employeeId, projectId };
+  items.push(item);
+  db.assignments = items;
+  await writeDb(db);
+  return { status: 201, body: item };
+}
+
+function projectsForEmployee(db, employeeId) {
+  const projectIds = new Set(
+    (db.assignments ?? [])
+      .filter((row) => Number(row.employeeId) === employeeId)
+      .map((row) => Number(row.projectId))
+  );
+  return (db.projects ?? []).filter((row) => projectIds.has(row.id));
+}
+
 function validateLogTime(db, employeeId, projectId, hours) {
   const numeric = Number(hours);
   if (!Number.isFinite(numeric) || numeric <= 0) {
@@ -49,9 +148,7 @@ function validateLogTime(db, employeeId, projectId, hours) {
     };
   }
 
-  const assigned = (db.assignments ?? []).some(
-    (row) => row.employeeId === employeeId && row.projectId === projectId
-  );
+  const assigned = hasAssignment(db, employeeId, projectId);
   if (!assigned) {
     return {
       valid: false,
@@ -237,6 +334,85 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
+app.get("/employees/:id/projects", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const employeeId = Number(req.params.id);
+    const employee = (db.employees ?? []).find((row) => row.id === employeeId);
+    if (!employee) {
+      res.status(404).json({ error: "Employee not found" });
+      return;
+    }
+    res.json(projectsForEmployee(db, employeeId));
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get("/employees/:id/projects/:projectId", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const employeeId = Number(req.params.id);
+    const projectId = Number(req.params.projectId);
+    const employee = (db.employees ?? []).find((row) => row.id === employeeId);
+    if (!employee) {
+      res.status(404).json({ error: "Employee not found" });
+      return;
+    }
+    const project = (db.projects ?? []).find((row) => row.id === projectId);
+    if (!project) {
+      res.status(404).json({ error: "Project not found" });
+      return;
+    }
+    const check = validateViewProject(db, employeeId, projectId);
+    if (!check.valid) {
+      res.status(403).json({ error: check.reason, constraintId: check.constraintId });
+      return;
+    }
+    res.json(project);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post("/employees/:id/assignments", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const employeeId = Number(req.params.id);
+    const projectId = Number(req.body?.projectId);
+    if (!Number.isFinite(projectId)) {
+      res.status(400).json({ error: "projectId is required" });
+      return;
+    }
+    const result = await createAssignment(db, employeeId, projectId);
+    res.status(result.status).json(result.body);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete("/employees/:id/assignments/:projectId", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const employeeId = Number(req.params.id);
+    const projectId = Number(req.params.projectId);
+    const items = db.assignments ?? [];
+    const index = items.findIndex(
+      (row) => row.employeeId === employeeId && row.projectId === projectId
+    );
+    if (index === -1) {
+      res.status(404).json({ error: "Assignment not found" });
+      return;
+    }
+    const [removed] = items.splice(index, 1);
+    db.assignments = items;
+    await writeDb(db);
+    res.json(removed);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get("/employees/:id/logtime", async (req, res, next) => {
   try {
     const db = await readDb();
@@ -287,7 +463,59 @@ app.get("/projects/:id/logtime", async (req, res, next) => {
   }
 });
 
+app.get("/projects", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const rawEmployeeId = req.query.employeeId;
+    if (rawEmployeeId === undefined || rawEmployeeId === "") {
+      res.json(db.projects ?? []);
+      return;
+    }
+    const employeeId = Number(rawEmployeeId);
+    const employee = (db.employees ?? []).find((row) => row.id === employeeId);
+    if (!employee) {
+      res.status(404).json({ error: "Employee not found" });
+      return;
+    }
+    res.json(projectsForEmployee(db, employeeId));
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get("/projects/:id", async (req, res, next) => {
+  try {
+    const db = await readDb();
+    const projectId = Number(req.params.id);
+    const project = (db.projects ?? []).find((row) => row.id === projectId);
+    if (!project) {
+      res.status(404).json({ error: "Project not found" });
+      return;
+    }
+    const rawEmployeeId = req.query.employeeId;
+    if (rawEmployeeId === undefined || rawEmployeeId === "") {
+      res.json(project);
+      return;
+    }
+    const employeeId = Number(rawEmployeeId);
+    const employee = (db.employees ?? []).find((row) => row.id === employeeId);
+    if (!employee) {
+      res.status(404).json({ error: "Employee not found" });
+      return;
+    }
+    const check = validateViewProject(db, employeeId, projectId);
+    if (!check.valid) {
+      res.status(403).json({ error: check.reason, constraintId: check.constraintId });
+      return;
+    }
+    res.json(project);
+  } catch (err) {
+    next(err);
+  }
+});
+
 for (const name of COLLECTIONS) {
+  if (name === "projects") continue;
   app.use(`/${name}`, createCollectionRouter(name));
 }
 
@@ -299,5 +527,8 @@ app.use((err, _req, res, _next) => {
 app.listen(port, () => {
   console.log(`Example API http://localhost:${port}`);
   console.log(`Collections: ${COLLECTIONS.map((c) => `/${c}`).join(", ")}`);
+  console.log("Projects (employee): GET /employees/:id/projects");
+  console.log("Assign: POST /employees/:id/assignments  { projectId }");
+  console.log("Projects (scoped): GET /projects?employeeId=:id  GET /projects/:id?employeeId=:id");
   console.log("Log time: POST /employees/:id/logtime  { projectId, workDate, hours, note? }");
 });

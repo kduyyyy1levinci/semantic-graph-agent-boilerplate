@@ -15,6 +15,16 @@ function mockCypherFromPrompt(userPrompt: string): CypherGenerationResult {
     };
   }
 
+  if (
+    normalized.includes("emp001") &&
+    (normalized.includes("project") || normalized.includes("assigned"))
+  ) {
+    return {
+      cypher:
+        "MATCH (e:Employee {empId: 'EMP001'})-[:ASSIGNED_TO]->(p:Project) RETURN p.projectId, p.title, p.difficulty"
+    };
+  }
+
   if (normalized.includes("assigned") || normalized.includes("assignment")) {
     return {
       cypher:
