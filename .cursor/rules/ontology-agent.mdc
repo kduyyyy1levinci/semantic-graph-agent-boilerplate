@@ -1,0 +1,6 @@
+---
+description: Follow ontology/project/RULES.md on "Follow the rules file"
+alwaysApply: true
+---
+
+When the user says **Follow the rules file** or `@ontology/project/RULES.md`, execute `ontology/project/RULES.md`. Requirement is the `Yêu cầu:` line only.

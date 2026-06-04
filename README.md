@@ -8,7 +8,9 @@ The ontology is the **Single Source of Truth (SSOT)**. Change the rules in one f
 |----------|----------|
 | **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Layers, flows, diagrams, extension points |
 | **[docs/GUIDE.md](docs/GUIDE.md)** | Setup, Neo4j, OpenAI, Cursor, troubleshooting |
-| **[docs/VIBE-CODING.md](docs/VIBE-CODING.md)** | Step-by-step vibe coding prompts with Cursor |
+| **[docs/VIBE-CODING.md](docs/VIBE-CODING.md)** | Step-by-step vibe coding workflow |
+| **[ontology/project/RULES.md](ontology/project/RULES.md)** | Workflow rules (fixed steps) |
+| **[ontology/project/CURSOR-USAGE.md](ontology/project/CURSOR-USAGE.md)** | User message: Yêu cầu + Follow the rules file |
 | **[docs/NEW-PROJECT-SETUP.md](docs/NEW-PROJECT-SETUP.md)** | Setup boilerplate for a new project |
 | **[docs/INCREMENTAL-SETUP.md](docs/INCREMENTAL-SETUP.md)** | Add ontology/graph to an existing project (by level) |
 

@@ -4,6 +4,8 @@ Hướng dẫn thực hành từ setup đến vibe code với Cursor. Mỗi bư�
 
 **Liên quan:** [README](../README.md) · [GUIDE](./GUIDE.md) · [ARCHITECTURE](./ARCHITECTURE.md)
 
+> **Cursor:** `@ontology/project/RULES.md` + `Yêu cầu: ...` + `Follow the rules file.` — [CURSOR-USAGE.md](../ontology/project/CURSOR-USAGE.md)
+
 ---
 
 ## Nguyên tắc
@@ -415,19 +417,17 @@ Constraints: Order phải có ít nhất 1 Product; Customer PLACED Order.
 
 ---
 
-## Prompt nhanh — Cheat sheet
+## Prompt (mỗi task)
 
-| Mục đích | Prompt |
-|----------|--------|
-| Hiểu domain | `@ontology/schema.json` Giải thích entity, rel, constraint |
-| Thêm entity | `@ontology/schema.json` Thêm class X với properties... Chỉ sửa schema |
-| Thêm rel | `@ontology/schema.json` Thêm relationship A PREDICATE B |
-| Sync mapping | `@ontology/schema.json @ontology/neo4j.mapping.json` Cập nhật mapping |
-| Tạo migration | `@ontology/schema.json` Tạo migration 00x, chỉ dùng labels đã khai báo |
-| Review drift | `@ontology/schema.json @database/` Kiểm tra migration khớp schema |
-| Review Cypher | `@ontology/schema.json` Query này có hợp ontology không? |
-| Thêm constraint | `@ontology/schema.json` Thêm constraint action WHEN rule... |
-| Implement handler | `@ontology/schema.json @src/ontology/guardrails.ts` Rule type mới, logic trong JSON |
+```
+@ontology/project/RULES.md
+
+Yêu cầu: [một dòng]
+
+Follow the rules file.
+```
+
+Happy-path workflow: [RULES.md](../ontology/project/RULES.md)
 
 ---
 
