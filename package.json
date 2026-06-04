@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "docker:up": "docker compose -f database/docker-compose.yml up -d",
+    "docker:down": "docker compose -f database/docker-compose.yml down",
+    "docker:logs": "docker compose -f database/docker-compose.yml logs -f",
+    "graph:export": "tsx src/ontology/export-graph.ts"
   },
   "dependencies": {
     "neo4j-driver": "^5.28.1",
